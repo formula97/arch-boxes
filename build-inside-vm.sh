@@ -76,7 +76,7 @@ EOF
   echo "Server = ${MIRROR}" >mirrorlist
 
   # We use the hosts package cache
-  pacstrap -c -C pacman.conf -M "${MOUNT}" base linux grub openssh sudo btrfs-progs reflector
+  pacstrap -c -C pacman.conf -M "${MOUNT}" base linux grub openssh sudo reflector git nano qemu-guest-agent
   cp mirrorlist "${MOUNT}/etc/pacman.d/"
 }
 
@@ -152,10 +152,10 @@ function create_image() {
       --new 2::-0 --typecode=2:8300 \
       "${tmp_image}"
   fi
-  mount_image "${tmp_image}"
-  if [ -n "${DISK_SIZE}" ]; then
-    btrfs filesystem resize max "${MOUNT}"
-  fi
+  #mount_image "${tmp_image}"
+  #if [ -n "${DISK_SIZE}" ]; then
+  #  btrfs filesystem resize max "${MOUNT}"
+  #fi
 
   if [ 0 -lt "${#PACKAGES[@]}" ]; then
     arch-chroot "${MOUNT}" /usr/bin/pacman -S --noconfirm "${PACKAGES[@]}"
