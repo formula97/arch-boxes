@@ -76,7 +76,7 @@ EOF
   echo "Server = ${MIRROR}" >mirrorlist
 
   # We use the hosts package cache
-  pacstrap -c -C pacman.conf -M "${MOUNT}" base linux grub openssh sudo reflector git nano qemu-guest-agent
+  pacstrap -c -C pacman.conf -M "${MOUNT}" base linux grub openssh sudo xfsprogs reflector git nano qemu-guest-agent
   cp mirrorlist "${MOUNT}/etc/pacman.d/"
 }
 
@@ -116,7 +116,7 @@ function mount_image() {
   LOOPDEV=$(losetup --find --partscan --show "${1:-${IMAGE}}")
   # Partscan is racy
   wait_until_settled "${LOOPDEV}"
-  mount -o compress-force=zstd "${LOOPDEV}p2" "${MOUNT}"
+  mount "${LOOPDEV}p2" "${MOUNT}"
   # Setup bind mount to package cache
   mount --bind "/var/cache/pacman/pkg" "${MOUNT}/var/cache/pacman/pkg"
 }
