@@ -54,8 +54,8 @@ function setup_disk() {
   LOOPDEV=$(losetup --find --partscan --show "${IMAGE}")
   # Partscan is racy
   wait_until_settled "${LOOPDEV}"
-  mkfs.btrfs "${LOOPDEV}p2"
-  mount -o compress-force=zstd "${LOOPDEV}p2" "${MOUNT}"
+  mkfs.xfs "${LOOPDEV}p2"
+  mount "${LOOPDEV}p2" "${MOUNT}"
 }
 
 # Install Arch Linux to the filesystem (bootstrap)
